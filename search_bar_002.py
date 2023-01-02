@@ -42,13 +42,3 @@ class SearchBar(unittest.TestCase):
         self.page_tests = pages.PageElementsTesting(self.page, self.driver)
         actual_value = self.page_tests.forwarding_after_search(element_id, search_word, class_method_names)
         self.assertEqual(True, actual_value, "title is wrong")
-
-
-        # search_bar = self.driver.find_element_by_id("id-search-field")
-        # search_bar.send_keys("selenium")
-        # search_bar.submit()
-        #
-        # self.assertIn("Search", self.driver.title)
-        # self.assertTrue(self.driver.find_element_by_css_selector(".search-form h3").text, "Results")
-        # self.assertTrue(self.driver.find_element_by_css_selector(".search-results .list-recent-events li"))
-
