@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -87,7 +89,7 @@ class PageElementsTesting(BasePage):
 
     @results
     def check_button(self, element_to_find, url, class_method_name):
-        """verify_element_existence
+        """verify functionality of a button
         :param element_to_find: html localization of the element (selenium.webdriver.common.by By object)
         :param url: url of the site after clicking button
         :param class_method_name: list of class and method name which called this function
@@ -102,3 +104,46 @@ class PageElementsTesting(BasePage):
         actual_value = self.driver.current_url
         return expected_value, actual_value, class_method_name
 
+    @results
+    def if_exist(self, element_id, class_method_name):
+        """verify element_existence
+        :param element_id: localization of the element
+        :param class_method_name: list of class and method name which called this function
+
+        :return expected_value: any type
+        :return actual_value: the same type as expected value
+        :return class_method_name: list of class and method name which called this function """
+        expected_value = True
+        actual_value = False
+        try:
+            element = self.driver.find_element(*element_id)
+            actual_value = True
+        except Exception as e:
+            print(e)
+            actual_value = False
+        finally:
+            return expected_value, actual_value, class_method_name
+
+    @results
+    def forwarding_after_search(self, element_id, search_word, class_method_name):
+        """verify if searching a phrase provide forwarding to another site
+        :param element_id: localization of the element
+        :param search_word: phrase to search
+        :param class_method_name: list of class and method name which called this function
+
+        :return expected_value: any type
+        :return actual_value: the same type as expected value
+        :return class_method_name: list of class and method name which called this function """
+        expected_value = "Search PyPI"
+        actual_value = "False"
+        try:
+            search_bar = self.driver.find_element(*element_id)
+            search_bar.send_keys(search_word)
+            search_bar.submit()
+            self.driver.implicitly_wait(5)
+            actual_value = self.driver.title
+        except Exception as e:
+            print(e)
+            actual_value = "False"
+        finally:
+            return expected_value, actual_value, class_method_name

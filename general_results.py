@@ -17,8 +17,11 @@ def results(test_func):
             expected_value = args[0]
             actual_value = args[1]
             class_method_names = args[2]
+            print("\n------------------------------------------------------------------------")
             print("Test Case: {} -> {}".format(class_method_names[0], class_method_names[1]))
             print("Expected value: {} || Actual value: {}".format(expected_value, actual_value))
+            print("------------------------------------------------------------------------\n")
+
             result = expected_value == actual_value
         except IndexError as e:
             print(e)
@@ -37,10 +40,16 @@ def prepare_test_result_json(file_name):
     """prepare_test_result_json: creating json file with Test Case Results
     :param file_name: name of the json file
     """
-    os.remove(file_name)
-    data = {'Test Steps': []}
-    with open(file_name, 'a') as f:
-        f.write(json.dumps(data))
+    try:
+        os.remove(file_name)
+    except FileNotFoundError:
+        pass
+    except Exception as e:
+        print(e)
+    finally:
+        data = {'Test Steps': []}
+        with open(file_name, 'a') as f:
+            f.write(json.dumps(data))
 
 
 def update_test_report(expected_value, actual_value, class_method_names, result):
